@@ -16,7 +16,12 @@ while principal > 0:
         extra_amount = extra_payment
     else:
         extra_amount = 0
-    principal = principal * (1+rate/12) - payment - extra_amount
+    if (principal * (1+rate/12)) < (payment + extra_amount):
+        payment = principal * (1+rate/12)
+        extra_amount = 0
+        principal = 0
+    else:
+        principal = principal * (1+rate/12) - payment - extra_amount
     total_paid = total_paid + payment + extra_amount
     payment_number += 1
     print(payment_number, total_paid, principal)
