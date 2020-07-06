@@ -24,6 +24,6 @@ while principal > 0:
         principal = principal * (1+rate/12) - payment - extra_amount
     total_paid = total_paid + payment + extra_amount
     payment_number += 1
-    print(payment_number, total_paid, principal)
+    print(f'{payment_number:>8}    {total_paid:>12.2f}    {principal:>12.2f}')
 
-print(f'Total paid: {total_paid:.2f} over {payment_number} months.')
+print(f'\nTotal paid: {total_paid:.2f} over {payment_number} months.')
