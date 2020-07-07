@@ -1,6 +1,4 @@
-# report.py
-#
-# Exercise 2.4
+# report2.py - Using dict
 
 import sys
 import csv
@@ -19,7 +17,7 @@ def read_portfolio(filename):
         rows = csv.reader(f)
         headers = next(rows)
         for row in rows:
-            holding = (row[0], int(row[1]), float(row[2]))
+            holding = {headers[0]: row[0], headers[1]:int(row[1]), headers[2]: float(row[2])}
             portfolio.append(holding)
     return portfolio
 
@@ -32,7 +30,22 @@ portfolio = read_portfolio(p+filename)
 print(portfolio)
 
 total = 0.0
-for name, shares, price in portfolio:
-    total += shares*price
+for s in portfolio:
+    total += s['shares'] * s['price']
 
 print(f'Total = {total:.2f}')
+
+# readprices function
+def readprices(fn):
+    prices = {}
+    with open(fn, newline='') as f2:
+        rows = csv.reader(f2)
+        for row in rows:
+            if not row:
+                continue
+            prices[row[0]] = float(row[1])
+    return prices
+
+pricedict = readprices(p+'prices.csv')
+
+print(pricedict)
