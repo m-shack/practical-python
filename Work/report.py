@@ -23,16 +23,40 @@ def read_portfolio(filename):
             portfolio.append(holding)
     return portfolio
 
-if len(sys.argv) == 2:
-    filename = sys.argv[1]
-else:
-    filename = 'portfolio.csv'
+# readprices function
+def readprices(fn):
+    prices = {}
+    with open(fn, newline='') as f2:
+        rows = csv.reader(f2)
+        for row in rows:
+            if not row:
+                continue
+            prices[row[0]] = float(row[1])
+    return prices
 
-portfolio = read_portfolio(p+filename)
-print(portfolio)
+def make_report(port, pricedict):
+    reportlist = []
+    for s in port:
+        reportlist.append((s[0], s[1], pricedict.get(s[0]), pricedict.get(s[0])-s[2]))
+    return reportlist
 
-total = 0.0
-for name, shares, price in portfolio:
-    total += shares*price
+filename1 = 'portfolio.csv'
+filename2 = 'prices.csv'
 
-print(f'Total = {total:.2f}')
+portfolio = read_portfolio(p+filename1)
+prices = readprices(p+filename2)
+report_items = make_report(portfolio, prices)
+
+headers = ('Name', 'Shares', 'Price', 'Change')
+dashes = '----------'
+print()
+print(f'{headers[0]:>10s} {headers[1]:>10s} {headers[2]:>10s} {headers[3]:>10s}')
+print(f'{dashes:>10s} {dashes:>10s} {dashes:>10s} {dashes:>10s}')
+for name, shares, price, change in report_items:
+    print(f'{name:>10s} {shares:>10d} {price:>10.2f} {change:>10.2f}')
+
+# total = 0.0
+# for name, shares, price in portfolio:
+#     total += shares*price
+
+# print(f'Total = {total:.2f}')
